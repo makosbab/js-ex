@@ -111,8 +111,8 @@ var aboleth = {
 	},
 	"specialAttacks" : [
 		"Átalakítás",
-		"pszionika",
-		"rabszolgaság"
+		"Pszionika",
+		"Rlabszolgaság"
 	],
 	"specialQualities" : [
 		"Nyálkafelhő"
@@ -135,14 +135,32 @@ var aboleth = {
 			"version" : "Hatalmas"
 		}
 	]
-}
+};
 
 
-var AdvanceModule = (function () {
-    var creature;
-    function advanceCreature(creature) {
-        creature = creature;
-        
+(function setDynamicAttributes() {
+
+	var attrMod = (attr) => Math.floor((attr - 10) / 2);
+	aboleth.hitPoints = aboleth.hitDice.avgHitPoints;
+	aboleth.strMod = () => attrMod(aboleth.str);
+	aboleth.dexMod = () => attrMod(aboleth.dex);
+	aboleth.conMod = () => attrMod(aboleth.con);
+	aboleth.intMod = () => attrMod(aboleth.int);
+	aboleth.wisMod = () => attrMod(aboleth.wis);
+	aboleth.charMod = () => attrMod(aboleth.char);
+})();
+
+var Creature = (function () {
+	//var creature = null;
+	
+	var changeHitDice = (creature) => {
+
+	}
+
+    var advanceToLevel = (creature) => {
+
+		changeStatsByNewSize(creature);
+		
     }
 
     var grantFeats = () => { 
@@ -153,14 +171,23 @@ var AdvanceModule = (function () {
 
     }
     
-    var changeStatsByNewSize = () => {
+    var changeStatsByNewSize = (creature) => {
+		Object.assign(creature, {
+			str: 40,
+			dex: 28,
+			con: 31
+		});
+		//console.log(creature);
+	}
 
-    }
     return {
-        advanceCreature: function(){
-            console.log("Advanced!");
-        }
+        advance: advance
     }
 })();
 
-AdvanceModule.advanceCreature(aboleth)
+Creature.advanceToLevel(aboleth);
+console.log(aboleth)
+aboleth.str = 66;
+console.log(aboleth.strMod());
+aboleth.str = 87;
+console.log(aboleth.strMod());
